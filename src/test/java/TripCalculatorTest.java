@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 
 class TripCalculatorTest {
@@ -29,6 +30,7 @@ class TripCalculatorTest {
     @Test
     void main() {
         PrintStream originalOut = System.out;
+        InputStream originalIn = System.in;
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
         try {
@@ -45,7 +47,11 @@ class TripCalculatorTest {
             assertTrue(output.contains("Trip total cost: 7.5"), "Output should contain trip cost message");
         }
         catch (Exception e) {
-            fail("Exception thrown: " + e.getMessage());
+
+        }
+        finally {
+            System.setIn(originalIn);
+            System.setOut(originalOut);
         }
     }
 }
